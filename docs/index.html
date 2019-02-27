@@ -25,42 +25,69 @@
 
 <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2019</h1>
 <h1 align="middle">Project 2: Mesh Editor</h1>
-<h2 align="middle">YOUR NAME</h2>
+<h2 align="middle">Ruixin Huang, cs184-aed</h2>
 
-<br><br>
+<br>In this assignment, I implemented several mesh operations. Exploring the basic structure
+behind the mesh, I implemented edge splits, edge flips ,loop sibdivision and explored the visual effects
+of these operations.The most interesting part of the project is how basic oeprations like edge splits can have such a drastic effect 
+after a few evaluation steps.
+<br>
 
 <div>
 
 <h2 align="middle">Overview</h2>
-<p>Give a high-level overview of what you implemented in this project. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the project.</p>
+<p></p>
 
 <h2 align="middle">Section I: Bezier Curves and Surfaces</h2>
 
 <h3 align="middle">Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
 
-<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+<p> Bezier curves are created through interpolating the control points repeatly. 
+  In each step, the new points are calculated based on split value t,ranging from 0 to 1. Then the final curve, going from the first 
+  control point to the last, is determined and influnced by the control points in between. </p>
+
 
 <div align="middle">
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/image1.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
+        <img src="images/q1.5.png" align="middle" width="400px"/>
+        <figcaption align="middle">Level 0.</figcaption>
       </td>
       <td>
-        <img src="images/image2.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
+        <img src="images/q1.1.png" align="middle" width="400px"/>
+        <figcaption align="middle">Level 1.</figcaption>
       </td>
     </tr>
     <br>
     <tr>
       <td>
-        <img src="images/image3.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
+        <img src="images/q1.2.png" align="middle" width="400px"/>
+        <figcaption align="middle">Level 2.</figcaption>
       </td>
       <td>
-        <img src="images/image4.png" align="middle" width="400px"/>
-        <figcaption align="middle">Caption goes here.</figcaption>
+        <img src="images/q1.3.png" align="middle" width="400px"/>
+        <figcaption align="middle">Level 3.</figcaption>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img src="images/q1.4.png" align="middle" width="400px"/>
+        <figcaption align="middle">Level 4.</figcaption>
+      </td>
+      <td>
+        <img src="images/q1.0.png" align="middle" width="400px"/>
+        <figcaption align="middle">Level 5.</figcaption>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img src="images/q1.6.png" align="middle" width="400px"/>
+        <figcaption align="middle">Completed curve.</figcaption>
+      </td>
+      <td>
+        <img src="images/q1.7.png" align="middle" width="400px"/>
+        <figcaption align="middle">Modified curve by modifying t-value.</figcaption>
       </td>
     </tr>
   </table>
@@ -68,21 +95,171 @@
 
 
 <h3 align="middle">Part 2: Bezier surfaces with separable 1D de Casteljau subdivision</h3>
+<p> de Casteljau's algorithm extends to Bezier surfaces by creating parallel Bezier curves along one axis first,
+  and then using points from these curves to create Beizer curve along the other vertex. And this gives us a Bezier surface in 3D space. </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/p2.1.png" align="middle" width="400px"/>
+        <figcaption align="middle">The teapot.</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 
 
 
 <h2 align="middle">Section II: Sampling</h2>
 
 <h3 align="middle">Part 3: Average normals for half-edge meshes</h3>
+<p> For each vertex, I found the normals for all of its neighbouring faces. 
+  This is achived by taking the cross product of the two edges the vertex has in that face.
+  Then I compute the unit normal of the sum of these normal vectors.
+  </p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/q3.1.png" align="middle" width="400px"/>
+        <figcaption align="middle">Without smoothed normals.</figcaption>
+      </td>
+      <td>
+        <img src="images/q3.2.png" align="middle" width="400px"/>
+        <figcaption align="middle">With smoothed normals.</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 
 
 <h3 align="middle">Part 4: Half-edge flip</h3>
 
+<p> I flip the edges of the mesh by colleting and reassigning the 
+  corresponding pointers of each vertex, face, edge and halfedge. I drew out the corresponding diagram
+on paper and reassigned my pointers based on it.</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/q4.0.png" align="middle" width="400px"/>
+        <figcaption align="middle">Original teapot.</figcaption>
+      </td>
+      <td>
+        <img src="images/q4.1.png" align="middle" width="400px"/>
+        <figcaption align="middle">After flipping some edges.</figcaption>
+    </tr>
+  </table>
+</div>
+
 
 <h3 align="middle">Part 5: Half-edge split</h3>
+<p>
+I split the half-edges by colleting and reassigning the 
+corresponding pointers of each vertex, face, edge and halfedge the split might have affected.
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/q5.1.png" align="middle" width="400px"/>
+        <figcaption align="middle">Original teapot.</figcaption>
+      </td>
+      <td>
+        <img src="images/q5.2.png" align="middle" width="400px"/>
+        <figcaption align="middle">After splitting some edges.</figcaption>
+      </td>
+      <td>
+        <img src="images/q5.3.png" align="middle" width="400px"/>
+        <figcaption align="middle">After a combination of edge flips and splits.</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
 
 
 <h3 align="middle">Part 6: Loop subdivision for mesh upsampling</h3>
+
+<p>To implement Loop subdivision, I calculated new vertex and edge position
+according to subdivision rule in the project spec. I split every edge in the orginal mesh.
+I flipped all new edges connected to an old vertex on one end and an new vertex on the other. 
+And I made sure that the vertex positions are correct after all the updates.</p>
+
+It could result in asymmetrical subdivisions if the original mesh has asymmetrical triangles.
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/2.png" align="middle" width="400px"/>
+        <figcaption align="middle">original tea pot.</figcaption>
+      </td>
+      <td>
+        <img src="images/1.png" align="middle" width="400px"/>
+        <figcaption align="middle">subdivision without pre-splitting.</figcaption>
+      </td>
+      <td>
+        <img src="images/3.png" align="middle" width="400px"/>
+        <figcaption align="middle">subdivision with pre-splitting.</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>dae/cube.dae without pre-splliting</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/q6.1.1.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 0.</figcaption>
+      </td>
+      <td>
+        <img src="images/q6.1.2.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 1.</figcaption>
+      </td>
+      <td>
+        <img src="images/q6.1.3.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 2.</figcaption>
+      </td>
+      <td>
+        <img src="images/q6.1.4.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 3.</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>With pre-splitting of some edges</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/q6.2.1.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 0.</figcaption>
+      </td>
+      <td>
+        <img src="images/q6.2.2.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 1.</figcaption>
+      </td>
+      <td>
+        <img src="images/q6.2.3.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 2.</figcaption>
+      </td>
+      <td>
+        <img src="images/q6.2..4.png" align="middle" width="200px"/>
+        <figcaption align="middle">Level 3.</figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>By pre-splitting the mesh before all the subdivisions, I got a more symmetric image. This is becasue the 
+  orginal mesh will create sharp corners in asymmetric postions. And pre-splitiing can alleiate the effect.
+</p>
+  
 
 <h2 align="middle">Section III: Mesh Competition</h2>
 <p>If you are not participating in the optional mesh competition, don't worry about this section!</p>
