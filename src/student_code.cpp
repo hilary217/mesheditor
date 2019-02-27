@@ -199,7 +199,13 @@ namespace CGL
           EdgeIter e2 = h2->edge();
           EdgeIter e3 = h4->edge();
           EdgeIter e4 = h5->edge();
-
+          EdgeIter e5 = newEdge();
+          EdgeIter e6 = newEdge();
+          EdgeIter e7 = newEdge();
+          
+          e6->isNew = true;
+          e7->isNew = true;
+          
           VertexIter v0 = h0->vertex();
           VertexIter v1 = h3->vertex();
           VertexIter v2 = h2->vertex();
@@ -207,20 +213,15 @@ namespace CGL
 
           FaceIter f0 = h0->face();
           FaceIter f1 = h3->face();
-
+          FaceIter f2 = newFace();
+          FaceIter f3 = newFace();
+          
           HalfedgeIter temp = e0->halfedge();
           Vector3D x = temp->vertex()->position;
           Vector3D y = temp->twin()->vertex()->position;
           VertexIter mid = newVertex();
           mid->position = (x + y) / 2;
           mid->isNew = true;
-
-          EdgeIter e5 = newEdge();
-          EdgeIter e6 = newEdge();
-          EdgeIter e7 = newEdge();
-
-          e6->isNew = true;
-          e7->isNew = true;
 
           HalfedgeIter h10 = newHalfedge();
           HalfedgeIter h11 = newHalfedge();
@@ -229,8 +230,6 @@ namespace CGL
           HalfedgeIter h14 = newHalfedge();
           HalfedgeIter h15 = newHalfedge();
 
-          FaceIter f2 = newFace();
-          FaceIter f3 = newFace();
 
           h0->next() = h13;
           h0->twin() = h10;
@@ -351,7 +350,7 @@ namespace CGL
           Vector3D original_position = v->position;
           Vector3D neighboring_sum(0,0,0);
           HalfedgeCIter h = v->halfedge()->twin();
-          int c = 0;	//count # of neighbors
+          int c = 0;
           do{
               neighboring_sum += h->vertex()->position;
               h = h->next()-> twin();
